@@ -1,34 +1,31 @@
-import React, { useState } from "react";
+import React from "react";
 import { Card, Typography, TextField } from "@mui/material";
-import { newTodoItem, todoList } from "./MockData";
+import { useSelector, useDispatch } from "react-redux";
+import { modifyTodo, deleteTodo, editTodo, addTodo } from "../store/todoSlice";
+import { newTodoItem } from "./MockData";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import { FiEdit } from "react-icons/fi";
 import { IoIosAddCircle } from "react-icons/io";
 
 const Todo = () => {
-  const [todos, setTodos] = useState(todoList);
+  const { todoData: todos } = useSelector((state) => state.todo);
+  const dispatch = useDispatch();
 
   const handleTextChange = (event, index) => {
-    let newTodo = [...todos];
-    newTodo[index].value = event.target.value;
-    setTodos(newTodo);
+    dispatch(modifyTodo({ value: event.target.value, index: index }));
   };
 
   const handleEdit = (index) => {
-    let newTodo = [...todos];
-    newTodo[index].disabled = false;
-    setTodos(newTodo);
+    dispatch(editTodo(index));
   };
 
   const handleDelete = (index) => {
-    let newTodo = [...todos];
-    newTodo[index].showFlag = false;
-    setTodos(newTodo);
+    dispatch(deleteTodo(index));
   };
 
   const handleAdd = () => {
     let newTodo = [...todos, { ...newTodoItem, id: todos.length + 1 }];
-    setTodos(newTodo);
+    dispatch(addTodo(newTodo));
   };
 
   return (

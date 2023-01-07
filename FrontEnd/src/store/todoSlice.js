@@ -1,21 +1,27 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
   todoData: [
-    {
-      id: 1,
-      value: "Get early0",
-      disabled: true,
-      showFlag: true,
-    },
-    {
-      id: 2,
-      value: "Get early 2",
-      disabled: true,
-      showFlag: true,
-    },
+    // {
+    //   id: 1,
+    //   value: "Get early0",
+    //   disabled: true,
+    //   showFlag: true,
+    // },
+    // {
+    //   id: 2,
+    //   value: "Get early 2",
+    //   disabled: true,
+    //   showFlag: true,
+    // },
   ],
 };
+const url = "http://localhost:4000/todos";
+export const getTodos = createAsyncThunk("todo/getTodos", async (thunkAPI) => {
+  const res = await fetch(url).then((data) => data.json());
+  console.log("first111", res);
+  return res;
+});
 
 export const todoSlice = createSlice({
   name: "todo",
@@ -36,6 +42,17 @@ export const todoSlice = createSlice({
       const index = action.payload.index;
       const value = action.payload.value;
       state.todoData[index].value = value;
+    },
+  },
+  extraReducers: {
+    // [getTodos.pending]: (state) => {
+    //   state.loading = true
+    // },
+    [getTodos.fulfilled]: (state, { payload }) => {
+      state.todoData = payload;
+    },
+    [getTodos.rejected]: (state) => {
+      console.log("first Error");
     },
   },
 });

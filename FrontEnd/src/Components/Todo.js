@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Card, Typography, TextField } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { modifyTodo, deleteTodo, editTodo, addTodo } from "../store/todoSlice";
+import {
+  modifyTodo,
+  deleteTodo,
+  editTodo,
+  addTodo,
+  getTodos,
+} from "../store/todoSlice";
 import { newTodoItem } from "./MockData";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import { FiEdit } from "react-icons/fi";
@@ -10,6 +16,10 @@ import { IoIosAddCircle } from "react-icons/io";
 const Todo = () => {
   const { todoData: todos } = useSelector((state) => state.todo);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getTodos());
+  }, []);
 
   const handleTextChange = (event, index) => {
     dispatch(modifyTodo({ value: event.target.value, index: index }));

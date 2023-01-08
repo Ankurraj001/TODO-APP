@@ -1,25 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
-  todoData: [
-    // {
-    //   id: 1,
-    //   value: "Get early0",
-    //   disabled: true,
-    //   showFlag: true,
-    // },
-    // {
-    //   id: 2,
-    //   value: "Get early 2",
-    //   disabled: true,
-    //   showFlag: true,
-    // },
-  ],
+  todoData: [],
 };
 const url = "http://localhost:4000/todos";
 export const getTodos = createAsyncThunk("todo/getTodos", async (thunkAPI) => {
   const res = await fetch(url).then((data) => data.json());
-  console.log("first111", res);
   return res;
 });
 

@@ -7,6 +7,7 @@ import {
   editTodo,
   addTodo,
   getTodos,
+  addNewTodo,
 } from "../store/todoSlice";
 import { newTodoItem } from "./MockData";
 import { RiDeleteBin6Fill } from "react-icons/ri";
@@ -14,12 +15,12 @@ import { FiEdit } from "react-icons/fi";
 import { IoIosAddCircle } from "react-icons/io";
 
 const Todo = () => {
-  const { todoData: todos } = useSelector((state) => state.todo);
+  const { todoData: todos, todoAdded } = useSelector((state) => state.todo);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getTodos());
-  }, []);
+  }, [todoAdded]);
 
   const handleTextChange = (event, index) => {
     dispatch(modifyTodo({ value: event.target.value, index: index }));
@@ -34,8 +35,15 @@ const Todo = () => {
   };
 
   const handleAdd = () => {
-    let newTodo = [...todos, { ...newTodoItem, id: todos.length + 1 }];
-    dispatch(addTodo(newTodo));
+    // let newTodo = [...todos, { ...newTodoItem, id: todos.length + 1 }];
+    dispatch(
+      addNewTodo({
+        id: todos.length + 1,
+        value: "Enter here",
+        disabled: true,
+        showFlag: true,
+      })
+    );
   };
 
   return (

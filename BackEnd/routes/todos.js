@@ -12,8 +12,9 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
+  console.log("first", req.body);
   const todos = new Todo({
-    id: req.body.ids,
+    id: req.body.id,
     value: req.body.value,
     disabled: req.body.disabled,
     showFlag: req.body.showFlag,

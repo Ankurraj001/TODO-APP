@@ -1,13 +1,19 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const initialState = {
   todoData: [],
+  todoAdded: 0,
 };
 const url = "http://localhost:4000/todos";
 export const getTodos = createAsyncThunk("todo/getTodos", async (thunkAPI) => {
   const res = await fetch(url).then((data) => data.json());
   return res;
 });
+
+export const addNewTodo = createAsyncThunk("todo/addNewTodo", async (payload) =>
+  axios.post(url, payload)
+);
 
 export const todoSlice = createSlice({
   name: "todo",
@@ -38,7 +44,13 @@ export const todoSlice = createSlice({
       state.todoData = payload;
     },
     [getTodos.rejected]: (state) => {
-      console.log("first Error");
+      console.log("first Get Error");
+    },
+    [addNewTodo.fulfilled]: (state) => {
+      state.todoAdded += 1;
+    },
+    [addNewTodo.rejected]: (state) => {
+      console.log("first Post Error");
     },
   },
 });

@@ -12,7 +12,6 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  console.log("first", req.body);
   const todos = new Todo({
     id: req.body.id,
     value: req.body.value,
@@ -24,6 +23,15 @@ router.post("/", async (req, res) => {
     res.json(data);
   } catch {
     res.send("Error");
+  }
+});
+
+router.delete("/", async (req, res) => {
+  try {
+    await Todo.deleteOne({ id: req.body.id });
+    res.send("Deleted successfully");
+  } catch {
+    res.send("Delete Error");
   }
 });
 

@@ -15,6 +15,10 @@ export const addNewTodo = createAsyncThunk("todo/addNewTodo", async (payload) =>
   axios.post(url, payload)
 );
 
+export const deleteTodo = createAsyncThunk("todo/deleteTodo", async (payload) =>
+  axios.delete(url, payload)
+);
+
 export const todoSlice = createSlice({
   name: "todo",
   initialState,
@@ -22,10 +26,10 @@ export const todoSlice = createSlice({
     addTodo: (state, action) => {
       state.todoData = action.payload;
     },
-    deleteTodo: (state, action) => {
-      const index = action.payload;
-      state.todoData[index].showFlag = false;
-    },
+    // deleteTodo: (state, action) => {
+    //   const index = action.payload;
+    //   state.todoData[index].showFlag = false;
+    // },
     editTodo: (state, action) => {
       const index = action.payload;
       state.todoData[index].disabled = false;
@@ -56,6 +60,6 @@ export const todoSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { modifyTodo, deleteTodo, editTodo, addTodo } = todoSlice.actions;
+export const { modifyTodo, editTodo, addTodo } = todoSlice.actions;
 
 export default todoSlice.reducer;

@@ -26,12 +26,27 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.delete("/", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
-    await Todo.deleteOne({ id: req.body.id });
+    await Todo.deleteOne({ id: req.params.id });
     res.send("Deleted successfully");
   } catch {
     res.send("Delete Error");
+  }
+});
+
+router.patch("/:id", async (req, res) => {
+  try {
+    const updateDoc = {
+      $set: {
+        value: req.body.value,
+      },
+    };
+    const options = { upsert: false };
+    await Todo.updateOne({ id: req.params.id }, updateDoc, options);
+    res.send("Data Updated successfully");
+  } catch {
+    res.send("Update Error");
   }
 });
 
